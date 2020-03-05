@@ -12,6 +12,7 @@ import { ProgressComponent } from './progress/progress.component';
 import { Graficas1Component } from './graficas1/graficas1.component';
 
 import { IncrementadorComponent } from '../componentes/incrementador/incrementador.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { IncrementadorComponent } from '../componentes/incrementador/incrementad
     DashboardComponent,
     ProgressComponent,
     Graficas1Component,
-    IncrementadorComponent
+    IncrementadorComponent,
+    AccountSettingsComponent
   ],
   exports: [
     DashboardComponent,
