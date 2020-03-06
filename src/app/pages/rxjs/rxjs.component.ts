@@ -1,43 +1,76 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscriber, Subscription } from 'rxjs';
+import { retry, map, filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-rxjs',
-  templateUrl: './rxjs.component.html',
-  styles: []
+    selector: 'app-rxjs',
+    templateUrl: './rxjs.component.html',
+    styles: []
 })
-export class RxjsComponent implements OnInit {
+export class RxjsComponent implements OnInit, OnDestroy {
 
-  constructor() {
+    subscription: Subscription;
 
-    const obs = new Observable(observer => {
+    constructor() {
 
-      let contador = 0;
+        // Usamos el retry en el observable para que siga promando el número de veces que queramos.
+        this.subscription = this.regresaObservable().pipe(
+            retry(2)
+        ).subscribe(
+            numero => console.log('Subscipción: ', numero),
+            error => console.log('Error en el obs', error),
+            () => console.log('El observador termino!')
+        );
+    }
 
-      const intervalo = setInterval(() => {
+    ngOnInit(): void {
+    }
 
-        contador += 1;
-        observer.next(contador);
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 
-        if (contador === 3) {
-          clearInterval(intervalo);
-          observer.complete();
-        }
-        if (contador === 2) {
-          observer.error('Error');
-        }
-      }, 1000);
-    });
+    regresaObservable(): Observable<any> {
 
-    obs.subscribe(
-      numero => console.log('Subscipción: ', numero),
-      error => console.log('Error en el obs', error),
-      () => console.log('El observador termino!')
-    );
+        return new Observable((observer: Subscriber<any>) => {
 
-  }
+            let contador = 0;
 
-  ngOnInit(): void {
-  }
+            const intervalo = setInterval(() => {
+
+                contador++;
+
+                const salida = {
+                    valor: contador
+                };
+
+                observer.next(salida);
+
+                // Mostramos solo hasta tres.
+                // if (contador === 3) {
+                //     clearInterval(intervalo);
+                //     observer.complete();
+                // }
+                // Si activamos el clear solo pasará dos veces por aquí.
+                // if (contador === 2) {
+                // clearInterval(intervalo);
+                //     observer.error('Auxilio!');
+                // }
+            }, 1000);
+            // mapeo de datos.
+        }).pipe(
+            map(resp => resp.valor),
+            // Metemos un filtro para que muestre solo impares.
+            filter((valor, index) => {
+                if ((valor % 2)) {
+                    // Impar
+                    return true;
+                } else {
+                    // Par
+                    return false;
+                }
+            })
+        );
+    }
 
 }
