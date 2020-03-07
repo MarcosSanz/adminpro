@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
 
     recuerdame = false;
     email: string;
-
     auth2: any;
 
     constructor(
@@ -33,6 +32,7 @@ export class LoginComponent implements OnInit {
     }
 
     googleInit() {
+        // Autorización de Google.
         gapi.load('auth2', () => {
             this.auth2 = gapi.auth2.init({
                 client_id: '361759443978-gqg4m7uchreus416gjbiv3nmiiuceodm.apps.googleusercontent.com',
@@ -45,10 +45,12 @@ export class LoginComponent implements OnInit {
     }
 
     attachSignin(element) {
+        // Autorización de Google.
         this.auth2.attachClickHandler(element, {}, (googleUser) => {
-            // const profile = googleUser.getBasicProfile();
             const token = googleUser.getAuthResponse().id_token;
-            console.log(token);
+            // Pasamos el token desde el servicio.
+            this.usuarioService.loginGoogle(token)
+            .subscribe(() => this.router.navigate(['/dashboard']));
         });
     }
 
@@ -57,9 +59,8 @@ export class LoginComponent implements OnInit {
         if (forma.invalid) {
             return;
         }
-
+        // Comprobar si el usuario está recordado.
         const usuario = new Usuario(null, forma.value.email, forma.value.password);
-
         this.usuarioService.login(usuario, forma.value.recuerdame)
             .subscribe(correcto => this.router.navigate(['/dashboard']));
     }
