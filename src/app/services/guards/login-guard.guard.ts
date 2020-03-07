@@ -15,7 +15,6 @@ export class LoginGuardGuard implements CanActivate {
     canActivate() {
 
         if (this.usuarioService.estaLogueado()) {
-            console.log('Paso por el login Gurad');
 
             return true;
         } else {

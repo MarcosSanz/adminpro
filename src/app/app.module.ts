@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+// Formularios
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Rutas
