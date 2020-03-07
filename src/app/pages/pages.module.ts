@@ -24,6 +24,7 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { ModalUploadComponent } from '../componentes/modal-upload/modal-upload.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     PromesasComponent,
     RxjsComponent,
     ProfileComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    ModalUploadComponent
   ],
   exports: [
     DashboardComponent,

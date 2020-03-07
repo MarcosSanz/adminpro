@@ -11,16 +11,16 @@ export class SubirArchivoService {
     subirArchivo(archivo: File, tipo: string, id: string) {
 
         return new Promise((resolve, reject) => {
+
             const formData = new FormData();
             const xhr = new XMLHttpRequest();
 
             formData.append('imagen', archivo, archivo.name);
 
-            // Petición Ajax.
-            // tslint:disable-next-line: only-arrow-functions
             xhr.onreadystatechange = function() {
 
                 if (xhr.readyState === 4) {
+
                     if (xhr.status === 200) {
                         console.log('Imagen subida');
                         resolve(JSON.parse(xhr.response));
@@ -30,11 +30,11 @@ export class SubirArchivoService {
                     }
                 }
             };
+
             const url = URL_SERVICIOS + '/upload/' + tipo + '/' + id;
 
             xhr.open('PUT', url, true);
             xhr.send(formData);
         });
-
     }
 }
